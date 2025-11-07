@@ -1,4 +1,5 @@
-import os;
+import os
+from datetime import datetime
 
 def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
     dados = [nome_evento, tipo_evento, data_evento, local_evento, orcamento]
@@ -27,47 +28,87 @@ def editar(nome_evento):
 
     opcao = input("Qual informação que você deseja alterar: \nNome do evento \nTipo do evento \nData do evento \nLocal do evento \nOrçamento \nEscolha: ")
 
-    with open(arquivo_nome,"r") as arquivo:
-        for linha in arquivo:
+    arquivo = open(arquivo_nome, "r")
+    for linha in arquivo:
             dados_novos.append(linha.strip())
+    arquivo.close()
+                               
+    if opcao == "nome":
+        novo_nome = input("Digite o novo nome: ")
+        dados_novos[0] = novo_nome
+        nome_evento_arquivo = novo_nome.replace(' ', '_')
+        arquivo_nome_novo = f"{nome_evento_arquivo}.txt"
+        os.remove(arquivo_nome)
 
-    with open(arquivo_nome,"w") as arquivo:
-
-        if opcao == "nome":
-            novo_nome = input("Digite o novo nome: ")
-            dados_novos[0] = novo_nome
-            nome_evento_arquivo = novo_nome.replace(' ', '_')
-            arquivo_nome_novo = f"{nome_evento_arquivo}.txt"
-            os.remove(arquivo_nome)
-
-            with open(arquivo_nome_novo, "w") as arquivo:
-                for itens in dados_novos:    
-                    arquivo.write(itens + '\n')
+        with open(arquivo_nome_novo, "w") as arquivo:
+            for itens in dados_novos:    
+                arquivo.write(itens + '\n')
+        print(f"Arquivo com novo nome {arquivo_nome_novo}")
+        print(f"Para acessar use: {novo_nome}")
                  
 
-        elif opcao == "tipo":
-            novo_tipo = input("Digite o novo tipo: ")
-            dados_novos[1] = novo_tipo
+    elif opcao == "tipo":
+        novo_tipo = input("Digite o novo tipo: ")
+        dados_novos[1] = novo_tipo
 
-        elif opcao == "data":
-            nova_data = input("Digite a nova data desta forma (XX/YY/ZZZZ): ")
-            dados_novos[2] = nova_data
+    elif opcao == "data":
+        nova_data = input("Digite a nova data desta forma (XX/YY/ZZZZ): ")
+        dados_novos[2] = nova_data
             
-        elif opcao == "local":
-            novo_local = input("Digite o novo local: ")
-            dados_novos[3] = novo_local
+    elif opcao == "local":
+        novo_local = input("Digite o novo local: ")
+        dados_novos[3] = novo_local
 
-        elif opcao == "orc":
-            nova_orc = input("Digite o novo orçamento: ")
-            dados_novos[4] = nova_orc
+    elif opcao == "orc":
+        nova_orc = input("Digite o novo orçamento: ")
+        dados_novos[4] = nova_orc
 
-       
+    if opcao != "nome":
         for itens in dados_novos:    
             arquivo.write(itens + '\n')
 
-        
-    
 
-    
+def retornando_data_str_E_in_var():
+    # essa função retornar a data de hoje (na ordem certa e sem o tempo exato que a data foi requerida ) e o dia 
+    # o mes e o ano armazenado como inteiros dentro de variáveis 
+    # teste essa função usando a biblioteca datetime e pedindo para printar 
+    #dia_hj , mes_hj , ano_hj
+    date_today_gr = (datetime.now())
+    # vai sair no formato gringo 2025-11-06
+    # precisa-se transformar no formato brasileiro em formato brasileiro 06-11-2025
+    date_today_gr = str(date_today_gr)
+    # por isso vai ser feito um macete para transformar o formato gringo em br
+    # 1.pegando o date today e fazendo dele uma lista para
+    # separarmos cada parte da data pelo separador '-'
+    date_today_list = date_today_gr.split("-")
+
+    # obs : o último item da lista , correspondente ao dia , vem tambem com o
+    # os segundos , horas e minutos que essa data foi requerida , por isso vamos ter que
+    # capturar só os dois primeiros caracteres do último item da lista e colocalos
+    # no lugar da string com o tempo que a pessoa
+    #  requeriu essa data (tipo: "06 23:06:56.012503")
+    datetoday_Br = ""
+    #  =============isolando só o dia
+    item_dois_lista = list(date_today_list[2])
+    item_dois_lista = item_dois_lista[0:2]
+    item_dois_lista = "".join(item_dois_lista)
+    date_today_list[2] = item_dois_lista
+    # a seguir vai ser usado join , por que o date_today_list[0:2] , sem ele ,
+    # iria ser guardado na forma de lista
+    date_today_list[2] = "".join(date_today_list[2])
+    # ====================
+    datetoday_Br += date_today_list[2]
+    dia_hj = int(date_today_list[2])
+    # colocando a parte dia do mês
+    datetoday_Br += "-"
+    datetoday_Br += date_today_list[1]
+    mes_hj = int(date_today_list[1])
+    # colocando a parte do mês do ano
+    datetoday_Br += "-"
+    # colocando a parte do ano
+    datetoday_Br += date_today_list[0]
+    ano_hj = int(date_today_list[0])
+    return datetoday_Br, dia_hj, mes_hj, ano_hj
 
 
+date_hj, dia_hj, mes_hj, ano_hj = retornando_data_str_E_in_var()

@@ -18,13 +18,14 @@ while True:
         orcamento_do_evento = input("Insira o orçamento utilizando digitos: ")
         adicionar(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento, orcamento_do_evento)
         
-
     elif opcoes == "visualizar" or opcoes == "visu":
+        # captura a data de hoje 
+        # pegando a data no formato gringo , transforma no brasileiro e atribui à uma variável o dia do mês , o mês e o ano em inteiro usando a função abaixo
+        data_hj , dia_hj , mes_hj , ano_hj = retornando_data_str_E_in_var()
         nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
         print()
         visualizar(nome_do_evento)
         
-
     elif opcoes == "excluir" or opcoes == "exc":
         nome_do_evento = input("Insira o nome do evento que deseja apagar: ").capitalize().strip()
         excluir(nome_do_evento)
@@ -33,4 +34,3 @@ while True:
         nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
         editar(nome_do_evento)
         
-    
