@@ -26,7 +26,7 @@ while True:
     elif opcoes == "visualizar" or opcoes == "visu":
         # captura a data de hoje 
         # pegando a data no formato gringo , transforma no brasileiro e atribui à uma variável o dia do mês , o mês e o ano em inteiro usando a função abaixo
-        data_hj , dia_hj , mes_hj , ano_hj = retornando_data_str_E_in_var
+        data_hj , dia_hj , mes_hj , ano_hj = retornando_data_str_E_in_var()
         nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
         print()
         visualizar(nome_do_evento)
