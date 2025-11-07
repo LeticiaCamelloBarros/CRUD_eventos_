@@ -1,8 +1,12 @@
 from funcoes import *
 import os
 os.system("cls")
+# tirando a classe datetime da biblioteca datetime 
+#biblioteca datetime - trabalha com datas 
+from datetime import datetime 
 
 while True:
+    data_de_hoje = 
     print("--------------------MENU ORGANIZA FESTA--------------------")
     opcoes = input(
         "escolha o que você deseja fazer: \nAdicionar Eventos \nVisualizar Eventos \nEditar Eventos \nExcluir Eventos \nSair \nEscolha: ").lower()
