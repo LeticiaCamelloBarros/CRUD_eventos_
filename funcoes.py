@@ -2,8 +2,8 @@ import os
 from datetime import datetime, timedelta
 import random
 
-def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
-    dados = [nome_evento, tipo_evento, data_evento, local_evento, orcamento]
+def adicionar(nome_evento, tipo_evento, data_evento, local_evento):
+    dados = [nome_evento, tipo_evento, data_evento, local_evento]
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
@@ -176,61 +176,34 @@ def retornando_data_str_E_in_var():
 date_hj, dia_hj, mes_hj, ano_hj = retornando_data_str_E_in_var()
 
 def tarefas_orcamento(nome_evento):
-    nome_evento_arquivo = nome_evento.replace(' ', '')
-    arquivo_nome_tarefas = f"{nome_evento_arquivo}_tarefas.txt"
+    nome_evento_arquivo = nome_evento.replace(' ', '_')
+    arquivo_nome = f"{nome_evento_arquivo}.txt"
     nomes_tarefas = []
     valores_tarefas = []
 
     while True:
 
-        desejo = input("Escolha a opção: \n[Adcionar tarefa (add)] \n[Orçamento disponível (orc)] \n[Sair (sair)] ").lower()
+        desejo = input("Escolha a opção: \n[Adicionar tarefa (add)] \n[Orçamento disponível (orc)] \n[Sair (sair)] ").lower()
 
         if desejo == "sair" or desejo == "s":
             break
 
         elif desejo == "add":
-            with open(arquivo_nome_tarefas, "a", encoding="utf-8") as arquivo:
+            try:
                 nome_tarefa , valor_tarefa = input("Digite o nome da tarefa e o valor da tarefa [nome,valor]").split(",")
                 nomes_tarefas.append(nome_tarefa)
                 valores_tarefas.append(float(valor_tarefa))
-                for i in range(len(nomes_tarefas)):
-                    arquivo.write(f"{nomes_tarefas[i]} - {valores_tarefas[i]}" + "\n")
-
+            except ValueError: 
+                print("Erro: digite no formato correto, ex: Decoração,250")
 
         elif desejo == "orc":
-            dados = []
-            buscar_orcamento = []
-            arquivo_nome = f"{nome_evento_arquivo}.txt"
+            print(valores_tarefas)
+            valor_total = sum(valores_tarefas)
+            orcamento_evento = valor_total * 1.25  
+            print(f'Orçamento previsto para o evento: R${orcamento_evento:.2f}')
 
-            with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-                for linha in arquivo:
-                    linha = linha.strip()
-                    buscar_orcamento.append(linha)
-
-            with open(arquivo_nome_tarefas, "r", encoding="utf-8") as arquivo:
-                for linha in arquivo:
-                    linha = linha.strip()
-
-                    if not linha:
-                        continue  
-
-                    partes = linha.split(" - ")
-                    
-                    if len(partes) == 2:
-                        valor_em_string = partes[1].strip()
-                        try:
-                            valor = float(valor_em_string)
-                            dados.append(valor)
-                        except ValueError:
-                            print(f"Valor inválido na linha: {linha}")
-
-            valor_total = sum(dados)
-
-                
-            orcamento_evento = buscar_orcamento[4]    
-            print(f"Orçamento disponivel para o evento {nome_evento}: R$ {orcamento_evento}")
-            print(f"Valor restante apos as tarefas: R$ {float(orcamento_evento) - valor_total}")
-            break
+            with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
+                arquivo.write(f"\nOrçamento total (com margem 25%): R${orcamento_evento:.2f}\n")
 
 def oferecer_sugestoes(nome_evento):
     dados_do_evento = []   
@@ -263,4 +236,4 @@ def oferecer_sugestoes(nome_evento):
         print(f"sugestao decoracao e cadapio para o evento {nome_evento}: {sugestao_decoracao}")
         
     else:
-        print(f"nao temos sugestoees no momento.")
+        print(f"nao temos sugestoes no momento.")
