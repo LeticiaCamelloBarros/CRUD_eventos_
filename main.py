@@ -42,4 +42,8 @@ while True:
     elif opcoes == "tempo" or opcoes == "time":
         nome_do_evento = input("Insira o nome do evento que deseja ver quanto tempo falta: ").capitalize().strip()
         tempo_restante_evento(nome_do_evento)
+
+    elif opcoes == "tarefa e orcamento" or opcoes == "to":
+        nome_do_evento = input("Insira o nome do evento que deseja adcionar as tarefas e atualizar o orçamento: ").capitalize().strip()
+        tarefas_orcamento(nome_do_evento)
         
