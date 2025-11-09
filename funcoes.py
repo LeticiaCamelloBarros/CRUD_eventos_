@@ -67,6 +67,47 @@ def editar(nome_evento):
         for itens in dados_novos:    
             arquivo.write(itens + '\n')
 
+def calcular_lucro_bruto(nome_evento):
+    buscar_orcamento = []
+    nome_evento_arquivo = nome_evento.replace(' ', '_')
+    arquivo_nome = f"{nome_evento_arquivo}.txt"
+    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+        for linha in arquivo:
+            buscar_orcamento.append(linha.strip())
+    orcamento_do_evento = float(buscar_orcamento[4])
+
+    while True:
+        try:
+            opcao = int(input("Opção[1] Adicionar os custos um a um\nOpção[2] Já tenho os custos somados\nOpção[3] Sair\n"))
+
+            if opcao == 1:
+                custos_do_evento = 0
+                while True:
+                    custo = input("\nPara ver o resultado digite [sair]\nInsira o número usando apenas digitos:  ")
+                    os.system('cls')
+                    print(f"O valor de {custo} foi inserido com sucesso!!")
+
+                    if custo == "sair":
+                        lucro_bruto = orcamento_do_evento - custos_do_evento
+                        print(f"O lucro bruto do evento {nome_evento} é de R${lucro_bruto}\n")
+
+                    elif custo != "sair":
+                        custo = float(custo)
+                        custos_do_evento = custos_do_evento + custo
+
+            elif opcao == 2:
+                custo_somado = float(input("\nPara ver o resultado digite [sair]\nInsira o custo somado do evento utilizando digitos:  "))
+                os.system('cls')
+                lucro_bruto = orcamento_do_evento - custo_somado
+                print(f"O lucro bruto do evento {nome_evento} é de R${lucro_bruto}\n")
+                break
+            elif opcao == 3:
+                print("Voltando ao menu. ")
+                os.system('cls')
+                break
+        except ValueError:
+            print("Escolha a opção usando digitos 1 ou 2.")
+            
 
 def retornando_data_str_E_in_var():
     # essa função retornar a data de hoje (na ordem certa e sem o tempo exato que a data foi requerida ) e o dia 

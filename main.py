@@ -5,7 +5,7 @@ os.system("cls")
 
 while True:
     print("--------------------MENU ORGANIZA FESTA--------------------")
-    opcoes = input("escolha o que você deseja fazer: \nAdicionar  \nVisualizar \nEditar  \nExcluir \ntarefa e orcamento \nSair \nEscolha: ").lower()
+    opcoes = input("Escolha o que você deseja fazer: \nAdicionar  \nVisualizar \nEditar \nLucro Bruto  \nExcluir \nTarefa e Orcamento \nSair \nEscolha: ").lower()
 
     if opcoes == "sair":
         break
@@ -29,6 +29,11 @@ while True:
     elif opcoes == "excluir" or opcoes == "exc":
         nome_do_evento = input("Insira o nome do evento que deseja apagar: ").capitalize().strip()
         excluir(nome_do_evento)
+
+    elif opcoes == "lucro bruto" or "lb":
+        nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
+        calcular_lucro_bruto(nome_do_evento)
+
 
     elif opcoes == "editar" or opcoes == "edit":
         nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
