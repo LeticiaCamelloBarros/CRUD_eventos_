@@ -173,3 +173,60 @@ def retornando_data_str_E_in_var():
 
 
 date_hj, dia_hj, mes_hj, ano_hj = retornando_data_str_E_in_var()
+
+def tarefas_orcamento(nome_evento):
+    nome_evento_arquivo = nome_evento.replace(' ', '')
+    arquivo_nome_tarefas = f"{nome_evento_arquivo}_tarefas.txt"
+    nomes_tarefas = []
+    valores_tarefas = []
+
+    while True:
+
+        desejo = input("Escolha a opção: \n[Adcionar tarefa (add)] \n[Orçamento disponível (orc)] \n[Sair (sair)] ").lower()
+
+        if desejo == "sair" or desejo == "s":
+            break
+
+        elif desejo == "add":
+            with open(arquivo_nome_tarefas, "a", encoding="utf-8") as arquivo:
+                nome_tarefa , valor_tarefa = input("Digite o nome da tarefa e o valor da tarefa [nome,valor]").split(",")
+                nomes_tarefas.append(nome_tarefa)
+                valores_tarefas.append(float(valor_tarefa))
+                for i in range(len(nomes_tarefas)):
+                    arquivo.write(f"{nomes_tarefas[i]} - {valores_tarefas[i]}" + "\n")
+
+
+        elif desejo == "orc":
+            dados = []
+            buscar_orcamento = []
+            arquivo_nome = f"{nome_evento_arquivo}.txt"
+
+            with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+                for linha in arquivo:
+                    linha = linha.strip()
+                    buscar_orcamento.append(linha)
+
+            with open(arquivo_nome_tarefas, "r", encoding="utf-8") as arquivo:
+                for linha in arquivo:
+                    linha = linha.strip()
+
+                    if not linha:
+                        continue  
+
+                    partes = linha.split(" - ")
+                    
+                    if len(partes) == 2:
+                        valor_em_string = partes[1].strip()
+                        try:
+                            valor = float(valor_em_string)
+                            dados.append(valor)
+                        except ValueError:
+                            print(f"Valor inválido na linha: {linha}")
+
+            valor_total = sum(dados)
+
+                
+            orcamento_evento = buscar_orcamento[4]    
+            print(f"Orçamento disponivel para o evento {nome_evento}: R$ {orcamento_evento}")
+            print(f"Valor restante apos as tarefas: R$ {float(orcamento_evento) - valor_total}")
+            break      
