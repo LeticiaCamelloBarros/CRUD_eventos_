@@ -129,52 +129,6 @@ def tempo_restante_evento(nome_evento):
     else:
         print(f"Esse evento já aconteceu há {abs(quanto_falta.days)} dias")
 
-
-def retornando_data_str_E_in_var():
-    # essa função retornar a data de hoje (na ordem certa e sem o tempo exato que a data foi requerida ) e o dia 
-    # o mes e o ano armazenado como inteiros dentro de variáveis 
-    # teste essa função usando a biblioteca datetime e pedindo para printar 
-    #dia_hj , mes_hj , ano_hj
-    date_today_gr = (datetime.now())
-    # vai sair no formato gringo 2025-11-06
-    # precisa-se transformar no formato brasileiro em formato brasileiro 06-11-2025
-    date_today_gr = str(date_today_gr)
-    # por isso vai ser feito um macete para transformar o formato gringo em br
-    # 1.pegando o date today e fazendo dele uma lista para
-    # separarmos cada parte da data pelo separador '-'
-    date_today_list = date_today_gr.split("-")
-
-    # obs : o último item da lista , correspondente ao dia , vem tambem com o
-    # os segundos , horas e minutos que essa data foi requerida , por isso vamos ter que
-    # capturar só os dois primeiros caracteres do último item da lista e colocalos
-    # no lugar da string com o tempo que a pessoa
-    #  requeriu essa data (tipo: "06 23:06:56.012503")
-    datetoday_Br = ""
-    #  =============isolando só o dia
-    item_dois_lista = list(date_today_list[2])
-    item_dois_lista = item_dois_lista[0:2]
-    item_dois_lista = "".join(item_dois_lista)
-    date_today_list[2] = item_dois_lista
-    # a seguir vai ser usado join , por que o date_today_list[0:2] , sem ele ,
-    # iria ser guardado na forma de lista
-    date_today_list[2] = "".join(date_today_list[2])
-    # ====================
-    datetoday_Br += date_today_list[2]
-    dia_hj = int(date_today_list[2])
-    # colocando a parte dia do mês
-    datetoday_Br += "-"
-    datetoday_Br += date_today_list[1]
-    mes_hj = int(date_today_list[1])
-    # colocando a parte do mês do ano
-    datetoday_Br += "-"
-    # colocando a parte do ano
-    datetoday_Br += date_today_list[0]
-    ano_hj = int(date_today_list[0])
-    return datetoday_Br, dia_hj, mes_hj, ano_hj
-
-
-date_hj, dia_hj, mes_hj, ano_hj = retornando_data_str_E_in_var()
-
 def tarefas_orcamento(nome_evento):
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
@@ -227,13 +181,49 @@ def oferecer_sugestoes(nome_evento):
         "reuniao": ["cafe", "brindes", "lanches"]
     }
 
+    fornecedores_cadastrador = []
+    tipos_fornecedores_cadastrados = []
+
+    with open("fornecedores.txt", "r", encoding="utf-8") as arquivo:    
+        for linha in arquivo:
+            linha = linha.strip()
+            parte1, parte2 = linha.split("-")
+            tipos_fornecedores_cadastrados.append(parte1)
+            fornecedores_cadastrador.append(parte2)
+
+    for i in range(len(tipos_fornecedores_cadastrados)):
+        tipo = tipos_fornecedores_cadastrados[i]
+        fornecedor = fornecedores_cadastrador[i]
+        if tipo in sugestao_fornecedores:
+            sugestao_fornecedores[tipo].append(fornecedor)
+        elif tipo not in sugestao_fornecedores:
+            sugestao_fornecedores[tipo] = [fornecedor]
+    
     if tipo_evento in sugestao_fornecedores:
-        fornecedores = sugestao_fornecedores[tipo_evento]
-        decoracao = sugestao_decoracao[tipo_evento]
-        sugestao_decoracao = random.choice(decoracao)
-        sugestao_fornecedores = random.choice(fornecedores)
-        print(f"sugestao forn para o evento {nome_evento}: {sugestao_fornecedores}")
-        print(f"sugestao decoracao e cadapio para o evento {nome_evento}: {sugestao_decoracao}")
+        fornecedor_aleatorio = random.choice(sugestao_fornecedores[tipo_evento])
+        print(f"fornecedor sugestao {fornecedor_aleatorio}")
+        print("sugestões de decoração para o seu evento:")
+        if tipo_evento in sugestao_decoracao:
+            for item in sugestao_decoracao[tipo_evento]:
+                print(item)
         
     else:
-        print(f"nao temos sugestoes no momento.")
+        print("nao temos fornecedores cadastrados para esse tipo, volte ao menu e cadastr")
+
+def cadastrar_fornecedores():
+    arquivo_nome = "fornecedores.txt"
+    fornecedores = []
+
+    while True:
+        tipo_fornecedor = input("Digite o tipo do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
+        if tipo_fornecedor.lower() == 'sair':
+            break
+        fornecedor = input("Digite o nome do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
+        if fornecedor.lower() == 'sair' or tipo_fornecedor.lower() == 'sair':
+            break
+        dados_fornecedor = tipo_fornecedor + "-" + fornecedor
+        fornecedores.append(dados_fornecedor)
+
+    with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
+        for forn in fornecedores:
+            arquivo.write(forn + "\n")

@@ -19,9 +19,6 @@ while True:
         orcamento_do_evento = tarefas_orcamento(nome_do_evento)
         
     elif opcoes == "visualizar" or opcoes == "visu":
-        # captura a data de hoje 
-        # pegando a data no formato gringo , transforma no brasileiro e atribui à uma variável o dia do mês , o mês e o ano em inteiro usando a função abaixo
-        data_hj , dia_hj , mes_hj , ano_hj = retornando_data_str_E_in_var()
         nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
         print()
         visualizar(nome_do_evento)
@@ -46,6 +43,9 @@ while True:
     elif opcoes == "tarefa e orcamento" or opcoes == "to":
         nome_do_evento = input("Insira o nome do evento que deseja adcionar as tarefas e atualizar o orçamento: ").capitalize().strip()
         tarefas_orcamento(nome_do_evento)
+
+    elif opcoes == "cadastrar" or opcoes == "forn":
+        cadastrar_fornecedores()
 
     elif opcoes == "sugestao" or opcoes == "sug":
         nome_do_evento = input("Insira o nome do evento que deseja ter uma sugestao ").capitalize().strip()
