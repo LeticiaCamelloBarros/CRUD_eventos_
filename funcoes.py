@@ -110,6 +110,10 @@ def tempo_restante_evento(nome_evento):
         print(f"Esse evento já aconteceu há {abs(quanto_falta.days)} dias")
 
 def tarefas_orcamento(nome_evento):
+    """
+    Função usada para adicionar tarefas e calcular orçamento com base nas tarefas adicionadas
+    """
+
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     nomes_tarefas = []
@@ -117,7 +121,12 @@ def tarefas_orcamento(nome_evento):
 
     while True:
 
-        desejo = input("Escolha a opção: \n[Adicionar tarefa (add)] \n[Orçamento disponível (orc)] \n[Sair (sair)] ").lower()
+        print("\n" + "-" * 60)
+        print("                  GERENCIADOR DE EVENTOS ")
+        print("-" * 60)
+        print("Escolha a opção:")
+        print("[1] - Adicionar tarefa        (add)\n[2] - Orçamento disponível    (orc)\n[3] - Sair                    (sair)")
+        desejo = input("→ ").lower()
 
         if desejo == "sair" or desejo == "s":
             break
@@ -138,7 +147,7 @@ def tarefas_orcamento(nome_evento):
             print(f'Orçamento previsto para o evento: R${orcamento_evento:.2f}')
 
             with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-                arquivo.write(f"\nOrçamento total (com margem 25%): R${orcamento_evento:.2f}\n")
+                arquivo.write(f"Orçamento total (com margem 25%): R${orcamento_evento:.2f}")
 
 def oferecer_sugestoes(nome_evento):
     """
@@ -217,3 +226,22 @@ def cadastrar_fornecedores():
     with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
         for forn in fornecedores:
             arquivo.write(forn + "\n")
+
+def convidados_evento(nome_evento):
+    """
+    Função usada para gerenciar a lista de convidados de um evento
+    """
+    
+    nome_evento_arquivo = nome_evento.replace(' ', '_')
+    arquivo_nome = f"{nome_evento_arquivo}_convidados.txt"
+    convidados = []
+
+    while True:
+        convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+        if convidado.lower() == 'sair':
+            break
+        convidados.append(convidado)
+
+    with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
+        for convidado in convidados:
+            arquivo.write(convidado + "\n")
