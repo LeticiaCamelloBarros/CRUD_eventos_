@@ -128,10 +128,10 @@ def tarefas_orcamento(nome_evento):
         print("[1] - Adicionar tarefa        (add)\n[2] - Orçamento disponível    (orc)\n[3] - Sair                    (sair)")
         desejo = input("→ ").lower()
 
-        if desejo == "sair" or desejo == "s":
+        if desejo == "sair" or desejo == "s" or desejo == 3:
             break
 
-        elif desejo == "add":
+        elif desejo == "add" or desejo == "a" or desejo == 2 o:
             try:
                 nome_tarefa = input("Digite o nome da tarefa: ").strip()
                 valor_tarefa = input(f"Digite o custo de {nome_tarefa}").strip()
@@ -140,7 +140,7 @@ def tarefas_orcamento(nome_evento):
             except ValueError: 
                 print("Erro: digite no formato correto")
 
-        elif desejo == "orc":
+        elif desejo == "orc" or desejo == "o" or desejo == 1:
             print(valores_tarefas)
             valor_total = sum(valores_tarefas)
             orcamento_evento = valor_total * 1.25  
@@ -253,7 +253,7 @@ def cadastrar_fornecedores():
 
     while True:
         tipo_fornecedor = input("Digite o tipo do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
-        if tipo_fornecedor.lower() == 'sair':
+        if tipo_fornecedor.lower() == 'sair' or :
             break
         fornecedor = input("Digite o nome do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
         if fornecedor.lower() == 'sair' or tipo_fornecedor.lower() == 'sair':
