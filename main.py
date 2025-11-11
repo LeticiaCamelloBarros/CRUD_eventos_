@@ -39,23 +39,21 @@ while True:
         print()
         visualizar(nome_do_evento)
 
-    elif opcoes == "excluir" or opcoes == "exc" or opcoes == "3":
+    elif opcoes == "editar" or opcoes == "edit" or opcoes == "3":
         print("\n" + "-" * 60)
-        print("  EXCLUIR UM EVENTO".center(60))
+        print("  EDITAR UM EVENTO".center(60))
         print(("-" * 60) + "\n")
 
-        nome_do_evento = input(
-            "Insira o nome do evento que deseja apagar: ").capitalize().strip()
-        excluir(nome_do_evento)
-
-    elif opcoes == "editar" or opcoes == "edit" or opcoes == "4":
-        print("\n" + "-" * 60)
-        print("  EXCLUIR UM EVENTO".center(60))
-        print(("-" * 60) + "\n")
-
-        nome_do_evento = input(
-            "Insira o nome do evento que deseja editar: ").capitalize().strip()
+        nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
         editar(nome_do_evento)
+
+    elif opcoes == "excluir" or opcoes == "exc" or opcoes == "4":
+        print("\n" + "-" * 60)
+        print("  EXCLUIR UM EVENTO".center(60))
+        print(("-" * 60) + "\n")
+
+        nome_do_evento = input("Insira o nome do evento que deseja apagar: ").capitalize().strip()
+        excluir(nome_do_evento)
 
     elif opcoes == "tempo" or opcoes == "time" or opcoes == "5":
         print("\n" + "-" * 60)
