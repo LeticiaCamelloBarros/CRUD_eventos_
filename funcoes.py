@@ -49,6 +49,9 @@ def excluir(nome_evento):
         arquivo_nome = f"{nome_evento_arquivo}.txt"
         os.remove(arquivo_nome)
     except FileNotFoundError:
+        print(
+            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        return
         print("")
 
 
@@ -57,6 +60,8 @@ def editar(nome_evento):
     arquivo_nome = f"{nome_evento_arquivo}.txt"
 
     if not os.path.exists(arquivo_nome):
+        print(
+            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         return
 
@@ -118,19 +123,27 @@ def editar(nome_evento):
 
         print("Dados atualizados com sucesso!")
 
+        print("Dados atualizados com sucesso!")
+
             
 def tempo_restante_evento(nome_evento):
     """
     Função usada para visualizar quantos dias faltam para o evento com base na data de hoje
     """
-
     dados_evento = []
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
-    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-        for linha in arquivo:
-            dados_evento.append(linha.strip())
+    try:
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                dados_evento.append(linha.strip())
+    except FileNotFoundError:
+
+        print("Evento não encontrado - tente cadastrar o evento \nou verifique se você digitou o nome como no cadastro do evento")
+        return
+
     data_evento = dados_evento[2]
+
     data_evento_brasileiro = datetime.strptime(data_evento, "%d/%m/%Y")
     data_atual = datetime.now()
     quanto_falta = data_evento_brasileiro - data_atual
@@ -323,11 +336,15 @@ def convidados_evento(nome_evento):
         convidados = []
 
         while True:
+            escolha = input(
+                "Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
             escolha = input("Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
             if escolha == "sair":
                 break
 
             elif escolha == "remover":
+                nome_remover = input(
+                    "Digite o nome do convidado que deseja remover: ").strip().lower()
                 nome_remover = input("Digite o nome do convidado que deseja remover: ").strip().lower()
                 with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
                     for linha in arquivo:
@@ -342,6 +359,8 @@ def convidados_evento(nome_evento):
                     print(f"{nome_remover} não está na lista de convidados.")
 
             elif escolha == "adicionar":
+                convidado = input(
+                    "Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
                 convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
                 if convidado.lower() == "sair":
                     break
