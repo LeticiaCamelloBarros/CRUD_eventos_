@@ -2,6 +2,7 @@ import os
 from datetime import datetime, timedelta
 import random
 
+
 def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
     """
     Função usada para criar arquivo com base nas informações:
@@ -213,7 +214,8 @@ def tarefas_orcamento(nome_evento):
                     arquivo.write(str(linha) + "\n")
 
 
-'''def oferecer_sugestoes(nome_evento):
+def oferecer_sugestoes(nome_evento):
+
     """
     Função usada para sugerir fornecedores, decorações e menus
     *Casamento, aniversario e reuniao são definidas como padrão, porem da para criar novas na função [Cadastrar fornecedores]
@@ -232,16 +234,18 @@ def tarefas_orcamento(nome_evento):
             "Deseja cadastrar esse evento primeiro? (sim/não): ").strip().lower()
 
         if escolha == "sim":
-            nome_do_evento = input(
-                "Insira o nome do evento: ").capitalize().strip()
-            tipo_do_evento = input(
-                "Insira o tipo de evento: ").capitalize().strip()
+            nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
+
+            tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
+
             data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
-            local_do_evento = input(
-                "Insira o local do evento: ").capitalize().strip()
-            criar_evento(nome_do_evento, tipo_do_evento,
-                         data_do_evento, local_do_evento)
-            orcamento_do_evento = tarefas_orcamento(nome_do_evento)
+
+            local_do_evento = input("Insira o local do evento: ").capitalize().strip()
+
+            orcamento = input("Insira o orçamento do evento: ")
+
+            adicionar(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento,orcamento )
+
             print("\n Evento cadastrado com sucesso!")
 
             nome_evento_arquivo = nome_evento.replace(' ', '_')
@@ -253,8 +257,10 @@ def tarefas_orcamento(nome_evento):
 
         elif escolha == "não":
             print("Voltando ao menu...")
+            chamar_menu()
         else:
             print("Voltando ao menu...")
+            chamar_menu()
 
     tipo_evento = dados_do_evento[1].lower()
 
@@ -298,9 +304,10 @@ def tarefas_orcamento(nome_evento):
             sugestao_fornecedores[tipo] = [fornecedor]
 
     if tipo_evento in sugestao_fornecedores:
-        fornecedor_aleatorio = random.choice(
-            sugestao_fornecedores[tipo_evento])
+        fornecedor_aleatorio = random.choice(sugestao_fornecedores[tipo_evento])
+
         print(f"fornecedor sugestao {fornecedor_aleatorio}")
+        
         print("sugestões de decoração para o seu evento:")
         if tipo_evento in sugestao_decoracao:
             for item in sugestao_decoracao[tipo_evento]:
@@ -456,10 +463,17 @@ def cadastrar_fornecedores():
     fornecedores = []
 
     while True:
-        try:
-            tipo_fornecedor = input(
-                "Digite o tipo do fornecedor que deseja cadastrar (ou 'sair' para finalizar): "
-            ).strip().lower()
+        tipo_fornecedor = input("Digite o tipo do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
+
+        if tipo_fornecedor.lower() == 'sair' or tipo_fornecedor.lower() == "s":
+            break
+
+        fornecedor = input("Digite o nome do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
+        
+        if fornecedor.lower() == 'sair' or tipo_fornecedor.lower() == 'sair':
+            break
+        dados_fornecedor = tipo_fornecedor + "-" + fornecedor
+        fornecedores.append(dados_fornecedor)
 
             if tipo_fornecedor in ("sair", "s"):
                 break
@@ -467,6 +481,30 @@ def cadastrar_fornecedores():
             if not tipo_fornecedor:
                 print("Tipo não pode ser vazio.")
                 continue
+
+def convidados_evento(nome_evento):
+    """
+    Função usada para gerenciar a lista de convidados de um evento
+    """
+
+    try:
+        nome_evento_arquivo = nome_evento.replace(' ', '_')
+        arquivo_nome = f"{nome_evento_arquivo}_convidados.txt"
+        convidados = []
+
+        while True:
+            escolha = input("Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
+
+            escolha = input("Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
+
+            if escolha == "sair":
+                break
+
+            elif escolha == "remover":
+
+                nome_remover = input("Digite o nome do convidado que deseja remover: ").strip().lower()
+
+                nome_remover = input("Digite o nome do convidado que deseja remover: ").strip().lower()
 
             fornecedor = input(
                 "Digite o nome do fornecedor (ou 'sair' para finalizar): "
@@ -533,12 +571,15 @@ def convidados_evento(nome_evento):
                 print("Arquivo não encontrado. Nenhum convidado foi cadastrado ainda.")
 
             elif escolha == "adicionar":
-                convidado = input(
-                    "Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+
                 convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+
+                convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+
                 if convidado.lower() == "sair":
                     break
                 convidados.append(convidado)
+
         with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
             for convidado in convidados:
                 arquivo.write(convidado + "\n")
@@ -559,5 +600,90 @@ def chamar_menu():
     print("7 - Cadastrar fornecedor")
     print("8 - Sugestão de evento")
     print("9 - Lista de convidados do evento")
-    print("10 - Sair")
+    print("10 - Painel geral")
+    print("11 - Sair")
     print("------------------------------------------------------------")
+
+
+
+
+def dashboard():
+
+    pasta_eventos = "." 
+    arquivos = []
+    for arquivo in os.listdir(pasta_eventos):
+        if arquivo.endswith(".txt"):
+            arquivos.append(arquivo)
+
+    total_eventos = 0
+    proximos_eventos = 0
+    eventos_passados = 0
+    eventos_futuros = 0
+
+    gastos_totais = 0
+    lucro_estimado = 0
+
+    evento_mais_perto = None
+    data_mais_perto = None
+
+    evento_mais_longe = None
+    data_mais_longe = None
+
+    hoje = datetime.now()
+
+    for arquivo in arquivos:
+        nome_evento = arquivo.replace(".txt", "")
+        total_eventos += 1
+        linhas = []
+
+        with open(arquivo, "r", encoding="utf-8") as file:
+            for linha in file:
+                linhas.append(linha.strip())
+            print(linhas)
+            data_arquivo = (linhas[2])
+            valor_orca = int(linhas[4])
+
+        data_evento = None
+        data_evento = datetime.strptime(data_arquivo, "%d/%m/%Y")
+        gastos_totais += valor_orca
+
+        if data_evento:
+            if data_evento.date() == hoje.date():
+                proximos_eventos += 1
+            elif data_evento < hoje:
+                eventos_passados += 1
+            else:
+                eventos_futuros += 1
+
+            if data_evento > hoje:
+                if data_mais_perto is None or data_evento < data_mais_perto:
+                    data_mais_perto = data_evento
+                    evento_mais_perto = nome_evento
+
+            if data_evento > hoje:
+                if data_mais_longe is None or data_evento > data_mais_longe:
+                    data_mais_longe = data_evento
+                    evento_mais_longe = nome_evento
+
+
+    print("\n==================== PAINEL GERAL ====================")
+    print(f"Total de eventos cadastrados: {total_eventos}")
+    print(f"Eventos próximos (hoje): {proximos_eventos}")
+    print(f"Eventos futuros: {eventos_futuros}")
+    print(f"Eventos passados: {eventos_passados}")
+    print("------------------------------------------------------")
+    print(f"Gastos totais estimados: R$ {gastos_totais:.2f}")
+    print(f"Lucro líquido estimado: R$ {lucro_estimado:.2f}")
+    print("------------------------------------------------------")
+
+    if evento_mais_perto:
+        print(f"Próximo evento: {evento_mais_perto} - {data_mais_perto.strftime('%d/%m/%Y')}")
+    else:
+        print("Nenhum evento futuro encontrado.")
+
+    if evento_mais_longe:
+        print(f"Evento mais distante: {evento_mais_longe} - {data_mais_longe.strftime('%d/%m/%Y')}")
+    else:
+        print("Nenhum evento futuro encontrado.")
+
+    print("======================================================\n")
