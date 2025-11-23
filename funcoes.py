@@ -170,6 +170,10 @@ def tarefas_orcamento(nome_evento):
 
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
+    if not os.path.exists(arquivo_nome):
+        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        return
+
     nomes_tarefas = []
     valores_tarefas = []
     dados = []
@@ -184,17 +188,18 @@ def tarefas_orcamento(nome_evento):
         print("[1] - Adicionar tarefa        (add)\n[2] - Orçamento disponível    (orc)\n[3] - Sair                    (sair)")
         desejo = input("→ ").lower()
 
-        if desejo == "sair" or desejo == "s" or desejo == 3:
+        if desejo == "sair" or desejo == "s":
             break
 
-        elif desejo == "add" or desejo == "a" or desejo == 2 or desejo == "a":
+        elif desejo == "add":
             try:
                 nome_tarefa = input("Digite o nome da tarefa: ").strip()
-                valor_tarefa = input(
-                    f"Digite o custo de {nome_tarefa}: ").strip()
+                valor_tarefa = input(f"Digite o custo da tarefa {nome_tarefa}").strip()
                 nomes_tarefas.append(nome_tarefa)
                 valores_tarefas.append(float(valor_tarefa))
             except ValueError:
+                print("Erro: digite no formato correto")
+            except TypeError: 
                 print("Erro: digite no formato correto")
 
         elif desejo == "orc":
