@@ -61,8 +61,6 @@ def editar(nome_evento):
     arquivo_nome = f"{nome_evento_arquivo}.txt"
 
     if not os.path.exists(arquivo_nome):
-        print(
-            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         return
 
@@ -115,10 +113,9 @@ def editar(nome_evento):
                 arquivo.write(item + '\n')
 
         print("Dados atualizados com sucesso!")
-
-        print("Dados atualizados com sucesso!")
    
 def tempo_restante_evento(nome_evento):
+
     """
     Função usada para visualizar quantos dias faltam para o evento com base na data de hoje
     """
@@ -370,6 +367,9 @@ def chamar_menu():
     print("------------------------------------------------------------")
 
 def dashboard():
+    """
+    Função usada para mostrar um painel geral dos eventos cadastrados
+    """
 
     pasta_eventos = "." 
     arquivos = []
@@ -395,7 +395,7 @@ def dashboard():
 
     for arquivo in arquivos:
         nome_evento = arquivo.replace(".txt", "")
-        total_eventos = total_eventos + 1
+        total_eventos += 1
         linhas = []
 
         with open(arquivo, "r", encoding="utf-8") as file:
@@ -437,12 +437,12 @@ def dashboard():
     print("------------------------------------------------------")
 
     if evento_mais_perto:
-        print(f"Próximo evento: {evento_mais_perto} - {data_mais_perto.strftime('%d/%m/%Y')}")
+        print(f"Próximo evento: {evento_mais_perto} - {data_mais_perto.strftime("%d/%m/%Y")}")
     else:
         print("Nenhum evento futuro encontrado.")
 
     if evento_mais_longe:
-        print(f"Evento mais distante: {evento_mais_longe} - {data_mais_longe.strftime('%d/%m/%Y')}")
+        print(f"Evento mais distante: {evento_mais_longe} - {data_mais_longe.strftime("%d/%m/%Y")}")
     else:
         print("Nenhum evento futuro encontrado.")
 
