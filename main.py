@@ -30,11 +30,21 @@ while True:
             print("voce não pode deixar um campo vazio, tente de novo.\n")
             break
 
-        data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
+        data_do_evento = input("Insira a data desta forma (DD/MM/AAAA): ").strip()
+        if not data_do_evento:
+            print("voce não pode deixar um campo vazio .Tente de novo")
+            break
 
         local_do_evento = input("Insira o local do evento: ").capitalize().strip()
+        if not local_do_evento:
+            print("voce não pode deixar um campo vazio .Tente de novo")
+            break
+
 
         orcamento = input("Insira o orçamento do evento: ").capitalize().strip()
+        if not orcamento:
+            print("voce não pode deixar um campo vazio .Tente de novo")
+            break
 
         adicionar(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento, orcamento)
         print("\nEvento cadastrado com sucesso!")
@@ -68,11 +78,6 @@ while True:
             if f.endswith(".txt"):
                 arquivos_txt.append(f)
 
-        if not arquivos_txt:  
-            print("Não existe nenhum evento salvo para excluir.")
-            continue
-
-        nome_do_evento = input("Digite o nome do evento que deseja excluir: ")
 
         excluir(nome_do_evento)
 
