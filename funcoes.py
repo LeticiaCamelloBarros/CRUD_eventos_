@@ -43,6 +43,7 @@ def visualizar(nome_evento):
     except FileNotFoundError:
         print("Esse arquivo não existe, tente criar um evento primeiro")
 
+
 def excluir(nome_evento):
     """
     Função usada para remover o arquivo do banco de dados
@@ -56,6 +57,7 @@ def excluir(nome_evento):
 
     except FileNotFoundError:
         print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+
 
 def editar(nome_evento):
     nome_evento_arquivo = nome_evento.replace(' ', '_')
@@ -114,7 +116,8 @@ def editar(nome_evento):
                 arquivo.write(item + '\n')
 
         print("Dados atualizados com sucesso!")
-   
+
+
 def tempo_restante_evento(nome_evento):
 
     """
@@ -145,6 +148,7 @@ def tempo_restante_evento(nome_evento):
         print(f"O evento será hoje!!")
     else:
         print(f"Esse evento já aconteceu há {abs(quanto_falta.days)} dias")
+
 
 def tarefas_orcamento(nome_evento):
     """
@@ -200,6 +204,7 @@ def tarefas_orcamento(nome_evento):
             with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
                 for linha in dados:
                     arquivo.write(str(linha) + "\n")
+
 
 def oferecer_sugestoes(nome_evento):
 
@@ -276,6 +281,7 @@ def oferecer_sugestoes(nome_evento):
     else:
         print("nao temos fornecedores cadastrados para esse tipo, volte ao menu e cadastr")
 
+
 def cadastrar_fornecedores():
     arquivo_nome = "fornecedores.txt"
     fornecedores = []
@@ -296,6 +302,7 @@ def cadastrar_fornecedores():
     with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
         for forn in fornecedores:
             arquivo.write(forn + "\n")
+
 
 def convidados_evento(nome_evento):
     """
@@ -319,6 +326,7 @@ def convidados_evento(nome_evento):
     except ValueError:
         print("Erro de valor")
 
+
 def chamar_menu():
     print()
     print("------------------------------------------------------------")
@@ -336,6 +344,7 @@ def chamar_menu():
     print("10 - Painel geral")
     print("11 - Sair")
     print("------------------------------------------------------------")
+
 
 def dashboard():
     """
