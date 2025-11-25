@@ -24,20 +24,22 @@ while True:
             print("voce não pode deixar um campo vazio, tente de novo.\n")
             break
 
-        tipo_do_evento = input("Insira o tipo de evento:\n1 - casamento\n2 - aniversario\n3 - reuniao\n4 - festa adulto\n").capitalize().strip()
+        dicionario = fornecedores()
+
+        print("OPÇÕES DE TIPO DE EVENTO: \n")
+        i = 1
+        for chave in dicionario.keys():
+            print(f"{i} - {chave}")
+            i += 1
+
+        tipo_do_evento = input("Insira o tipo de evento: \n").capitalize().strip()
                 
         while True:
-            if tipo_do_evento == 'Casamento':
-                break
-            elif tipo_do_evento == 'Aniversario':
-                break
-            elif tipo_do_evento == 'Reuniao':
-                break
-            elif tipo_do_evento == 'Festa adulto':
+            if tipo_do_evento.lower() in dicionario.keys():
                 break
             else: 
                 print('Digite apenas um dos tipos mostrados.')
-                tipo_do_evento = input("Insira o tipo de evento:\n1 - casamento\n2 - aniversario\n3 - reuniao\n4 - festa adulto\n").capitalize().strip()
+                tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
                 continue
         
         if not tipo_do_evento:
@@ -87,7 +89,7 @@ while True:
         print("  EDITAR UM EVENTO".center(60))
         print(("-" * 60) + "\n")
 
-        rquivos_txt = []
+        arquivos_txt = []
         for f in os.listdir():
             if f.endswith(".txt"):
                 arquivos_txt.append(f)
@@ -104,6 +106,7 @@ while True:
         print("\n" + "-" * 60)
         print("  EXCLUIR UM EVENTO".center(60))
         print(("-" * 60) + "\n")
+        nome_do_evento = input("Insira o nome do evento que deseja excluir: ").capitalize().strip()
 
         arquivos_txt = []
         for f in os.listdir():

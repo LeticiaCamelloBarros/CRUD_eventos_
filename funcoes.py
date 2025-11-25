@@ -14,14 +14,28 @@ def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
     """
 
     while True:
-        try:
-            data_evento = datetime.strptime(data_evento, "%d/%m/%Y")
-            break  
-        except ValueError:
-            print("Data inválida! Digite novamente no formato DD/MM/AAAA.")
-            data_evento = input("Data do evento: ")  
+        if not isinstance(data_evento, datetime):
+            try:
+                data_evento = datetime.strptime(data_evento, "%d/%m/%Y")  
+            except ValueError:
+                print("Data inválida! Digite novamente no formato DD/MM/AAAA.")
+                data_evento = input("Data do evento: ")
+                continue
+        
+        data_formatada = data_evento.strftime("%d/%m/%Y")
+        data = True
 
-    dados = [nome_evento, tipo_evento, data_evento, local_evento, orcamento]
+        try:
+            orcamento = int(orcamento)
+            orc = True
+        except ValueError:
+            orcamento = input("\nInsira um valor contendo apenas digitos no orçamento: ")
+            continue
+
+        if data and orc:
+            break 
+
+    dados = [nome_evento, tipo_evento, data_formatada, local_evento, str(orcamento)]
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
 
@@ -49,9 +63,8 @@ def excluir(nome_evento):
     Função usada para remover o arquivo do banco de dados
     """
     try:
-        nome_evento_arquivo = nome_evento.replace(' ', '_')
+        nome_evento_arquivo = nome_evento.replace(" ", "_")
         arquivo_nome = f"{nome_evento_arquivo}.txt"
-
         os.remove(arquivo_nome)
         print(f"Evento '{nome_evento}' removido com sucesso!")
 
@@ -220,83 +233,82 @@ def oferecer_sugestoes(nome_evento):
         with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
             for linha in arquivo:
                 dados_do_evento.append(linha.strip())
+
+        tipo_evento = dados_do_evento[1].lower()
+
+        sugestao_fornecedores = {
+            "casamento": ["buffet salgueiro", "barreiros eventos", "recife casamentos"],
+            "aniversario": ["festas salgueirinho", "niver recife", "niver & cia"],
+            "reuniao": ["ceo eventos", "ceo partys", "cesar eventos"],
+            "festa adulto": ["vitrine", "lounge", "life"]
+        }
+
+        sugestao_decoracao = {
+            "casamento": ["flores", "musica ao vivo", "buques"],
+            "aniversario": ["brinquedos", "baloes", "animadores"],
+            "reuniao": ["cartoes de visita", "brindes", "decoracao corporativa"],
+            "festa adulto": ["luzes", "dj", "camarotes"]
+        }
+
+        sugestao_menu = {
+            "casamento": ["jantar completo", "open bar", "coquetel"],
+            "aniversario": ["buffet infantil", "doces e salgados", "bolo personalizado"],
+            "reuniao": ["coffee break", "almoço executivo", "jantar formal"],
+            "festa adulto": ["vodka", "whisky", "gelo"]
+        }
+
+        fornecedores_cadastrado = []
+        tipos_fornecedores_cadastrados = []
+
+        with open("fornecedores.txt", "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                linha = linha.strip()
+                parte1, parte2 = linha.split("-")
+                tipos_fornecedores_cadastrados.append(parte1)
+                fornecedores_cadastrado.append(parte2)
+
+        for i in range(len(tipos_fornecedores_cadastrados)):
+            tipo = tipos_fornecedores_cadastrados[i]
+            fornecedor = fornecedores_cadastrado[i]
+            if tipo in sugestao_fornecedores:
+                sugestao_fornecedores[tipo].append(fornecedor)
+            elif tipo not in sugestao_fornecedores:
+                sugestao_fornecedores[tipo] = [fornecedor]
+
+        if tipo_evento in sugestao_fornecedores:
+            fornecedor_aleatorio = random.choice(sugestao_fornecedores[tipo_evento])
+
+            print(f"Fornecedor sugestão: {fornecedor_aleatorio}")
+            
+            if tipo_evento in sugestao_decoracao:
+                print("Sugestões de decoração para o seu evento: ")
+                for item in sugestao_decoracao[tipo_evento]:
+                    print(item)
+
+            if tipo_evento in sugestao_menu:
+                print("Sugestões de menu para o seu evento:")
+                for item in sugestao_menu[tipo_evento]:
+                    print(item)
+        else:
+            print("nao temos fornecedores cadastrados para esse tipo, volte ao menu e cadastre")
     except FileNotFoundError:
-        print(f"Cadastro não foi encontrado.")
-
-    tipo_evento = dados_do_evento[1].lower()
-
-    sugestao_fornecedores = {
-        "casamento": ["buffet salgueiro", "barreiros eventos", "recife casamentos"],
-        "aniversario": ["festas salgueirinho", "niver recife", "niver & cia"],
-        "reuniao": ["ceo eventos", "sei la nao sei", "cesar eventos"],
-        "festa adulto": ["vitrine", "lounge", "life"]
-    }
-
-    sugestao_decoracao = {
-        "casamento": ["flores", "musica ao vivo", "buques"],
-        "aniversario": ["brinquedos", "baloes", "animadores"],
-        "reuniao": ["cartoes de visita", "brindes", "decoracao corporativa"],
-        "festa adulto": ["luzes", "dj", "camarotes"]
-    }
-
-    sugestao_menu = {
-        "casamento": ["jantar completo", "open bar", "coquetel"],
-        "aniversario": ["buffet infantil", "doces e salgados", "bolo personalizado"],
-        "reuniao": ["coffee break", "almoço executivo", "jantar formal"],
-        "festa adulto": ["vodka", "whisky", "gelo"]
-    }
-
-    fornecedores_cadastrador = []
-    tipos_fornecedores_cadastrados = []
-
-    with open("fornecedores.txt", "r", encoding="utf-8") as arquivo:
-        for linha in arquivo:
-            linha = linha.strip()
-            parte1, parte2 = linha.split("-")
-            tipos_fornecedores_cadastrados.append(parte1)
-            fornecedores_cadastrador.append(parte2)
-
-    for i in range(len(tipos_fornecedores_cadastrados)):
-        tipo = tipos_fornecedores_cadastrados[i]
-        fornecedor = fornecedores_cadastrador[i]
-        if tipo in sugestao_fornecedores:
-            sugestao_fornecedores[tipo].append(fornecedor)
-        elif tipo not in sugestao_fornecedores:
-            sugestao_fornecedores[tipo] = [fornecedor]
-
-    if tipo_evento in sugestao_fornecedores:
-        fornecedor_aleatorio = random.choice(sugestao_fornecedores[tipo_evento])
-
-        print(f"fornecedor sugestao {fornecedor_aleatorio}")
-        
-        print("sugestões de decoração para o seu evento:")
-        if tipo_evento in sugestao_decoracao:
-            for item in sugestao_decoracao[tipo_evento]:
-                print(item)
-        print("sugestões de menu para o seu evento:")
-        if tipo_evento in sugestao_menu:
-            for item in sugestao_menu[tipo_evento]:
-                print(item)
-
-    else:
-        print("nao temos fornecedores cadastrados para esse tipo, volte ao menu e cadastr")
-
+        print(f"Cadastro não foi encontrado, cadastre primeiro.")
 
 def cadastrar_fornecedores():
     arquivo_nome = "fornecedores.txt"
     fornecedores = []
 
     while True:
-        tipo_fornecedor = input("Digite o tipo do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
-        if tipo_fornecedor.lower() == 'sair':
+        tipo_evento_novo = input("Digite o tipo de evento que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
+        if tipo_evento_novo.lower() == 'sair':
             break
 
         fornecedor = input("Digite o nome do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
 
-        if fornecedor.lower() == 'sair' or tipo_fornecedor.lower() == 'sair':
+        if fornecedor.lower() == 'sair' or tipo_evento_novo.lower() == 'sair':
             break
 
-        dados_fornecedor = tipo_fornecedor + "-" + fornecedor
+        dados_fornecedor = tipo_evento_novo + "-" + fornecedor
         fornecedores.append(dados_fornecedor)
 
     with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
@@ -311,12 +323,25 @@ def convidados_evento(nome_evento):
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}_convidados.txt"
     convidados = []
+
+    if not os.path.exists(arquivo_nome):
+        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome ou cadastre o evento primeiro.")
+        return
+
     try:
         while True:
-            convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
-            if convidado.lower() == 'sair':
+            convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' ou 'exibir' para finalizar): ").strip()
+            if convidado.lower() == "sair":
                 break
-            convidados.append(convidado)
+
+            elif convidado.lower() == "exibir":
+                with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+                    print("CONVIDADOS\n")
+                    for linha in arquivo:
+                        print(linha.strip())
+                break
+            else:
+                convidados.append(convidado)  
 
         with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
             for convidado in convidados:
@@ -434,3 +459,36 @@ def dashboard():
             print(lista_eventos_passados[i])
 
     print("======================================================\n")
+
+def fornecedores():
+    tipos_fornecedores_cadastrados = []
+    fornecedores_cadastrados = []
+
+    try:
+        with open("fornecedores.txt", "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                linha = linha.strip()
+                parte1, parte2 = linha.split("-")
+                tipos_fornecedores_cadastrados.append(parte1)
+                fornecedores_cadastrados.append(parte2)
+    except FileNotFoundError:
+        pass
+
+    sugestao_fornecedores = {
+        "casamento": ["buffet salgueiro", "barreiros eventos", "recife casamentos"],
+        "aniversario": ["festas salgueirinho", "niver recife", "niver & cia"],
+        "reuniao": ["ceo eventos", "ceo partys", "cesar eventos"],
+        "festa adulto": ["vitrine", "lounge", "life"]
+        }
+    
+    for i in range(len(tipos_fornecedores_cadastrados)):
+        tipo = tipos_fornecedores_cadastrados[i]
+        fornecedor = fornecedores_cadastrados[i]
+
+        if tipo in sugestao_fornecedores:
+            sugestao_fornecedores[tipo].append(fornecedor)
+
+        elif tipo not in sugestao_fornecedores:
+            sugestao_fornecedores[tipo] = [fornecedor]
+
+    return sugestao_fornecedores
