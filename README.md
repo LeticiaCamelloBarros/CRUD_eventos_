@@ -1,6 +1,6 @@
 # Projeto: “Organiza Festa” – Sistema de Planejamento de Eventos
 
-Este é um projeto para a matéria de Introdução a Computação do curso de Ciência da Computação da Cesar School.
+Este é um projeto para a matéria de fundamento de programação do curso de Ciência da Computação da Cesar School.
 
 ### Membros do Grupo 7:
 
