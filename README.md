@@ -23,18 +23,21 @@ Esse projeto tem como função criar um CRUD de eventos utilizando funçoes e ma
 É uma função que cria um arquivo com base nas informações que serão adicionadas pelo usuário.  
   - Nome do evento;
   - Tipo de evento (aniversário, reunião, etc.);
+    *vai ser escolhido um entre os disponiveis se não vai ficar num loop infinito até acertarem o formato da data 
   - Data do evento;
+     * deve ter um formato válido , especificado quando o código é executado , senão entrará em loop infinito até acertarem o formato da data 
   - Local do evento;  
 
 - Função Visualizar:  
 É uma função usada para visualizar o evento com base no banco de dados criado pela função adicionar.
 
 - Função Editar:  
-É uma função usada para editar as informações do evento criado anteriormente.  
-  - Nome do evento;
-  - Tipo de evento (aniversário, reunião, etc.);
-  - Data do evento;
-  - Local do evento;
+É uma função usada para editar as informações do evento criado anteriormente.
+  -voce escolhe se quer editar : 
+     * Nome do evento;
+     *  Tipo de evento (aniversário, reunião, etc.);
+     *  Data do evento;
+     *  Local do evento;
 
 - Função Excluir:  
 É uma função criada para excluir eventos do banco de dados.
